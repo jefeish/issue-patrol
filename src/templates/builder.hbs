@@ -1,0 +1,270 @@
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Policy App</title>
+
+	<!---CDN Links-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>
+	<script>
+		{{!-- Global variable for 'id' parameters --}}
+		var idx = -1
+		var conditions = []
+
+		// --------------------------------------------------------------------
+		//
+		// --------------------------------------------------------------------
+		window.addEventListener("load", function () {
+		document.getElementById('_builderA').style.color = 'Aqua';
+		})
+
+		// --------------------------------------------------------------------
+		//
+		// --------------------------------------------------------------------
+		function destroy(id) {
+			var elem = document.getElementById(id)
+			elem.parentNode.removeChild(elem);
+			const index = conditions.indexOf(id)
+			if (index > -1) { conditions.splice(index, 1) }
+			compileYaml()
+		}
+
+		// --------------------------------------------------------------------
+		//
+		// --------------------------------------------------------------------
+		function addCondition() {
+			idx = idx + 1
+			conditions[conditions.length] = "p"+ idx
+			elem = document.getElementById('conditions')
+			elem.insertAdjacentHTML('beforeend', " \
+										<div id='p"+ idx +"' class='panel panel-default'> \
+											<div id='c"+ idx +"' class='panel-body'> \
+												<form class='form-horizontal'> \
+													<div class='form-group'> \
+														<div class='col-sm-12'> \
+															<button type='button' class='btn btn-danger btn-xs pull-right' onclick='destroy(\"p"+ idx +"\")'>&#10006;</button> \
+														</div> \
+													</div> \
+													<div class='form-group'> \
+														<label class='control-label col-sm-3'>Description</label> \
+														<div class='col-sm-9'> \
+															<input type='text'  onchange= 'compileYaml()' class='form-control' id='d"+ idx +"' placeholder='Condition description' name='description'> \
+														</div> \
+													</div>	\
+													<div class='form-group'> \
+														<label class='control-label col-sm-3' for='fact'>Fact&nbsp;<a href='https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads' target='_blank'><span class='glyphicon glyphicon-info-sign'></span></a></label> \
+														<div class='col-sm-9'> \
+															<input type='text'  onchange= 'compileYaml()' placeholder='GitHub event data' class='form-control' id='f"+ idx +"' list='facts_list'> \
+														</div> \
+													</div> \
+													<div class='form-group'> \
+														<label class='control-label col-sm-3' for='operator'>Operator</label> \
+														<div class='col-sm-9'> \
+															<select id='o"+ idx +"' class='form-control' onchange= 'compileYaml()' > \
+																<option value='doesNotInclude'>doesNotInclude</option> \
+																<option value='includes'>includes</option> \
+																<option value='includesAny'>includesAny</option> \
+																<option value='doesNotIncludeAny'>doesNotIncludeAny</option> \
+																<option value='regex'>regex</option> \
+																<option value='isEmpty'>isEmpty</option> \
+																<option value='notEmpty'>notEmpty</option> \
+																<option value='dateLessThan'>dateLessThan</option> \
+																<option value='dateGreaterThan'>dateGreaterThan</option> \
+																<option value='notEqual'>notEqual</option> \
+																<option value='equal'>equal</option> \
+																<option value='regex'>regex</option> \
+															</select> \
+														</div> \
+													</div> \
+													<div class='form-group'> \
+														<label class='control-label col-sm-3' for='value'>Value</label> \
+														<div class='col-sm-9'> \
+															<input type='text'  onchange= 'compileYaml()' class='form-control' id='v"+ idx +"' placeholder='Value' name='value'> \
+														</div> \
+													</div> \
+												</form> \
+											</div> \
+										</div> \
+									")
+      		compileYaml()
+		}
+
+		// --------------------------------------------------------------------
+		//
+		// --------------------------------------------------------------------
+		function compileYaml() {
+			console.log('compileYaml()')
+			const yamlText = document.getElementById('yamlSample')
+			const paramsContent = document.getElementById('paramsContent')
+			const params = document.getElementById('params')
+
+			const name = document.getElementById('name').value
+			const description = document.getElementById('description').value
+			const priority = document.getElementById('priority').value
+			const handlerType = document.getElementById('handlerType').value
+
+			for (var i = 0; i < paramsContent.options.length; i++) {
+				if (paramsContent.options[i].text === handlerType) {
+					paramsContent.selectedIndex = i;
+					break;
+				}
+			}
+
+			let facts = ""
+
+			for (var i = 0; i < conditions.length; i++) {
+				let num = conditions[i].substring(1)
+				const cDescription = document.getElementById('d'+ num)
+				const cFact = document.getElementById('f'+ num)
+				const cOperator = document.getElementById('o'+ num)
+				const cValue = document.getElementById('v'+ num)
+				facts = facts +"\
+  - fact: "+ cFact.value +" \n\
+    operator: "+ cOperator.value +" \n\
+    value: "+ cValue.value +" \n\
+    description: "+ cDescription.value +"\n\n\
+"
+			}
+			
+
+			yamlText.value = "--- \n\
+name: "+ name + "\n\
+description: "+ description +"\n\
+priority: "+ priority +"\n\n\
+conditions:\n\
+  all:\n\
+"+ facts +"\
+\nevent:\n\
+  type: "+ handlerType +"\n\
+  params:"+ paramsContent.value
+
+			params.value = paramsContent.value
+		}
+
+		// --------------------------------------------------------------------
+		//
+		// --------------------------------------------------------------------
+		function copy2clipboard() {
+			const copyYaml = document.getElementById("yamlSample")
+			copyYaml.select()
+			copyYaml.setSelectionRange(0, 99999)
+			navigator.clipboard.writeText(copyYaml.value)
+		}
+	</script>
+</head>
+
+<body>
+	<div class="container">
+		{{{header}}}
+
+		<div id="builder" class="jumbotron">
+			<p>Policy Builder</p>
+		</div>
+		<div class="col-md-6">
+			<form class='form-horizontal'> 
+				<div class="form-group">
+					<label for="name">Name</label>
+					<input id="name" onchange="compileYaml()" type="text" class="form-control" id="name"  placeholder='Policy name' >
+				</div>
+				<div class="form-group">
+					<label for="desc">Description</label>
+					<input id="description" onchange="compileYaml()" type="text" class="form-control" id="desc" placeholder='Policy description'>
+				</div>
+				<div class="form-group">
+					<label for="pri">Priority:</label>
+					<input id="priority" onchange="compileYaml()" type="number" class="form-control" id="pri" value=0  placeholder='Policy execution priority' >
+				</div>
+				<div class="form-group">
+					<div class="panel panel-default">
+						<div class="panel-heading"><b>Conditions</b> <button type="button" class="btn btn-primary btn-xs pull-right"
+								onclick="addCondition()">Add Condition</button>
+						</div>
+						<div id="conditions" class="panel-body">
+							{{!-- conditions --}}
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="panel-group">
+						<div class="panel panel-default">
+							<div class="panel-heading"><b>Event</b></div>
+							<div class="panel-body">
+								<div class='form-group'> 
+									<label class='control-label col-sm-3'>Type</label> 	
+									<div class='col-sm-9'>			
+										<select id="handlerType" onchange="compileYaml()" class="form-control" >
+											{{#each handlers}}
+
+											<option style="font-size: 25px;" value="{{this.Name}}">{{this.Name}}</option>
+
+											{{/each}}
+										</select>
+									</div>	
+								</div>
+
+								<div class="form-group">
+										<label class='control-label col-sm-3'>Params</label>
+									<div class='col-sm-9'>	
+										<textarea id="params" onchange="compileYaml()" rows="8" class="form-control" readonly>
+										</textarea>
+									</div>
+								</div>						
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>		
+		</div>
+		<div class="col-md-1"></div>
+		<div class="col-md-5">
+			<form class='form-horizontal'> 
+				<div class="form-group">
+					<label class="form-label" for="yamlSample">Policy Yaml</label>
+					<button type='button' class='btn btn-info btn-xs pull-right' onclick='copy2clipboard()'>Copy</button>
+					<textarea class="form-control" id="yamlSample" rows="40" >
+{{sample}}
+					</textarea>
+				</div>
+			</form>	
+		</div>	
+	</div>
+
+	{{!-- Hidden stuff --}}
+	<div hidden>
+		<div id="ht" class="row ">
+			<div class="col-sm-3">
+				<label for="pri">Fact:</label>
+			</div>
+			<div class="col-sm-9">
+				<select id="fact">
+					{{#each handlers}}
+
+					<option value="{{this.Name}}">{{this.Name}}</option>
+
+					{{/each}}
+				</select>
+			</div>
+		</div>
+
+		<select id="paramsContent">
+			{{#each handlers}}
+
+			<option value="{{this.Params}}">{{this.Name}}</option>
+
+			{{/each}}
+		</select>
+
+		<datalist id="facts_list">
+			{{#each facts_list}}
+			<option value="{{this.Fact}}"></option>
+			{{/each}}
+		</datalist>
+	</div>
+	{{!-- No more hiding --}}
+</body>
+
+</html>

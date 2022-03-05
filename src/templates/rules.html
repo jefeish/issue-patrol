@@ -1,0 +1,178 @@
+<div class="card-text">
+  <details>
+    <summary><b>Name:</b> Repo Branch protection Policy 2 &nbsp;&nbsp;&nbsp;&nbsp;(a simple policy)</summary>
+    <div style="padding: 10px;" class="bg-secondary">
+      <table class="table table-hover table-striped" style="padding: 0px">
+        <th style="width: 5%;">
+          Fact
+        </th>
+        <th>
+          Description
+        </th>
+        <th>
+          Condition
+        </th>
+        <th>
+          Event Type
+        </th>
+        <th>
+          Data
+        </th>
+        </tr>
+        <tr style="line-height: 1px;">
+          <td class="table-dark">
+            1
+          </td>
+          <td class="table-dark">"A create event"</td>
+          <td class="table-dark">If "name", "equal", "create"</td>
+          <td rowspan=4 style="vertical-align: middle" class="table-success">repositoryBranchProtection</td>
+          <td rowspan=4 class="table-primary" style="line-height: 15px;">
+            <details>
+              <summary>Click to expand</summary>
+              <pre>
+<code color=Cyan>
+{
+  "required_status_checks": null,
+  "enforce_admins": true,
+  "required_signatures": true,
+  "required_linear_history": true,
+  "allow_force_pushes": true,
+  "allow_deletions": true,
+  "required_conversation_resolution": true,
+  "required_pull_request_reviews": {
+    "dismissal_restrictions": {
+      "users": [
+        "jefeish"
+      ],
+      "teams": [
+        "foo"
+      ]
+    },
+    "dismiss_stale_reviews": true,
+    "require_code_owner_reviews": true,
+    "required_approving_review_count": 6
+  },
+  "restrictions": {
+    "users": [
+      "jefeish",
+      "jester01248"
+    ],
+    "teams": [
+      "foo"
+    ]
+  }
+}
+</code>
+</pre>
+            </details>
+        <tr style="line-height: 1px;">
+          <td class="table-dark">
+            2
+          </td>
+          <td class="table-dark">"Repo Branch created"</td>
+          <td class="table-dark">If "ref_type", "equal", "branch"</td>
+        <tr style="line-height: 1px;">
+          <td class="table-dark">
+            3
+          </td>
+          <td class="table-dark"></td>
+          <td class="table-dark">If , , </td>
+        <tr style="line-height: 1px;">
+          <td class="table-dark">
+            4
+          </td>
+          <td class="table-dark">"Prevent loops"</td>
+          <td class="table-dark">If "sender.type", "notEqual", "Bot"</td>
+      </table>
+    </div>
+  </details>
+</div>
+<div class="card-text">
+  <details>
+    <summary><b>Name:</b> Repo Branch protection Policy 2 &nbsp;&nbsp;&nbsp;&nbsp;(a simple policy)</summary>
+    <div style="padding: 10px;" class="bg-secondary">
+      <table class="table table-hover table-striped" style="padding: 0px">
+        <th style="width: 5%;">
+          Fact
+        </th>
+        <th>
+          Description
+        </th>
+        <th>
+          Condition
+        </th>
+        <th>
+          Event Type
+        </th>
+        <th>
+          Data
+        </th>
+        </tr>
+        <tr style="line-height: 1px;">
+          <td class="table-dark">
+            1
+          </td>
+          <td class="table-dark">"A create event"</td>
+          <td class="table-dark">If "name", "equal", "create"</td>
+          <td rowspan=4 style="vertical-align: middle" class="table-success">repositoryBranchProtection</td>
+          <td rowspan=4 class="table-primary" style="line-height: 15px;">
+            <details>
+              <summary>Click to expand</summary>
+              <pre>
+<code color=Cyan>
+{
+  "required_status_checks": null,
+  "enforce_admins": true,
+  "required_signatures": true,
+  "required_linear_history": true,
+  "allow_force_pushes": true,
+  "allow_deletions": true,
+  "required_conversation_resolution": true,
+  "required_pull_request_reviews": {
+    "dismissal_restrictions": {
+      "users": [
+        "jefeish"
+      ],
+      "teams": [
+        "foo"
+      ]
+    },
+    "dismiss_stale_reviews": true,
+    "require_code_owner_reviews": true,
+    "required_approving_review_count": 6
+  },
+  "restrictions": {
+    "users": [
+      "jefeish",
+      "jester01248"
+    ],
+    "teams": [
+      "foo"
+    ]
+  }
+}
+</code>
+</pre>
+            </details>
+        <tr style="line-height: 1px;">
+          <td class="table-dark">
+            2
+          </td>
+          <td class="table-dark">"Repo Branch created"</td>
+          <td class="table-dark">If "ref_type", "equal", "branch"</td>
+        <tr style="line-height: 1px;">
+          <td class="table-dark">
+            3
+          </td>
+          <td class="table-dark"></td>
+          <td class="table-dark">If , , </td>
+        <tr style="line-height: 1px;">
+          <td class="table-dark">
+            4
+          </td>
+          <td class="table-dark">"Prevent loops"</td>
+          <td class="table-dark">If "sender.type", "notEqual", "Bot"</td>
+      </table>
+    </div>
+  </details>
+</div>
