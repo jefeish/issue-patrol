@@ -72,7 +72,8 @@ app.get('/', function (req, res) {
                         const days_inprogress = Math.ceil(time_inprogress / (1000 * 60 * 60 * 24))
                         const days_since_last_update = Math.ceil(TODAY.diff(end, 'hours') / 24)
                         const days_total = days_since_last_update + days_inprogress
-                        const active = Math.floor(days_total * days_inprogress * 0.1)
+                        const active = Math.floor(days_inprogress * 100 / days_total)
+                        console.log("Issue: "+r[i].number+" - days_total: "+days_total+" - days_inprogress: "+ days_inprogress +" - active: "+ active)
                         row['end'] = TODAY
                         row['done'] = active
                     }
