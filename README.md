@@ -3,6 +3,7 @@
 Observe and inspect Repository issues.
 
 This App visualizes Issues, their age and activity, based on last update.
+
 The goal is to get a quick overview on the status of Repo Issues.
 
 ![overview](docs/images/issue_patrol.png)
