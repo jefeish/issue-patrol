@@ -11,6 +11,7 @@ const moment = require('moment');
 const PORT = process.env.PORT
 const TOKEN = process.env.TOKEN
 const API_URL = process.env.API_URL
+const ORG = process.env.ORG
 
 const { Octokit } = require("@octokit/rest")
 const octokit = new Octokit({ auth: TOKEN });
@@ -38,7 +39,7 @@ app.get('/', function (req, res) {
     const sortTasks = req.query.sortTasks 
     const page_limit = req.query.page_limit || 100
     
-    getIssues('githubcustomers', repo, state, page_limit).then(result => {
+    getIssues(ORG, repo, state, page_limit).then(result => {
         const TODAY = moment(new Date())
         const r = result
 
