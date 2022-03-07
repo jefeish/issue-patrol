@@ -8,6 +8,12 @@ The goal is to get a quick overview on the status of Repo Issues.
 
 ![overview](docs/images/issue_patrol.png)
 
+Explanation:
+- Issue 11 & 12 have been created in Dec '21 but received no updates
+- Issue 10 & 13 have been created in Dec '21 and received their last update in Dec '21, no update on the Issues since
+
+---
+
 ## Run the App
 
 1. Create an `.env` file
