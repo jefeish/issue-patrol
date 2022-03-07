@@ -23,6 +23,7 @@ Explanation:
 
    ```bash
    API_URL=api.github.com
+   ORG="jefeish"
    PORT=8008
    TOKEN="ghp_..."
    ```
