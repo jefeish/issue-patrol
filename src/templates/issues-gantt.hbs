@@ -8,6 +8,9 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
+        let data
+        let chart
+        const org = "{{org}}"
 
         window.onbeforeunload = function () {
             localStorage.setItem(issue_state, $('#issue_state').val());
@@ -20,7 +23,7 @@
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-            var data = new google.visualization.DataTable();
+            data = new google.visualization.DataTable();
             data.addColumn('string', 'Task ID');
             data.addColumn('string', 'Task Name');
             data.addColumn('string', 'Resource');
@@ -39,10 +42,10 @@
             ]);
 
             var options = {
-                height: {{{ height }}},
+                height: {{ height }},
                 gantt: {
                     labelMaxWidth: 500,
-                        sortTasks: {{{sortTasks}}},
+                        sortTasks: {{sortTasks}},
                     labelStyle: {
                         fontSize: 14,
                             },
@@ -52,8 +55,28 @@
                 }
             };
 
-        var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
-        chart.draw(data, options);
+            chart = new google.visualization.Gantt(document.getElementById('chart_div'))
+            chart.draw(data, options)
+            google.visualization.events.addListener(chart, 'select', selectHandler)
+        }
+
+        function selectHandler(e) {
+            var selection = chart.getSelection()
+            var id = ''
+
+            for (var i = 0; i < selection.length; i++) {
+                var item = selection[i];
+                if (item.row != null && item.column != null) {
+                    var id = data.getFormattedValue(item.row, item.column)
+                } else if (item.row != null) {
+                    var id = data.getFormattedValue(item.row, 0)
+                } else if (item.column != null) {
+                    var id = data.getFormattedValue(0, item.column)
+                }
+            }
+            const repo = document.getElementById('repo').value;
+            const URL =  "https://github.com/"+ org +"/"+ repo +"/issues/" + id;
+            window.open(URL, '_blank');
         }
     </script>
     <style>
@@ -72,7 +95,7 @@
             <p><img src="https://www.freeiconspng.com/uploads/github-logo-icon-5.png" width="64px">Issue Patrol</p>
             <div>
                 <form action=".">
-                    <input type="text" name="repo" value="{{repo}}" placeholder="Provide a Repo name"><br>
+                    <input type="text" id="repo" name="repo" value="{{repo}}" placeholder="Provide a Repo name"><br>
                     <input type="radio" id="all" name="issue_state" value="all" {{checked_all}}>
                     <label for="all">All</label>
                     <input type="radio" id="open" name="issue_state" value="open" {{checked_open}}>

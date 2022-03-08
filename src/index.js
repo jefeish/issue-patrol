@@ -90,6 +90,7 @@ app.get('/', function (req, res) {
             var template = hbs.compile(tpl);
             var data = {
                 "sortTasks": sortTasks === 'on' ? 'true' : 'false',
+                "org": ORG,
                 "repo": repo,
                 "state": state,
                 "page_limit": page_limit,
