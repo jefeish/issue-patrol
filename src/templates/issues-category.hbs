@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>D3.js collapsible tree with boxes</title>
+    <title>Issue Patrol</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" href="tree-boxes.css">
@@ -30,14 +30,18 @@
         {{{header}}}
     </div>
     <div class="container">
-        <div id="init" class="jumbotron"></div>
-        <div id="tree-container" class="jumbotron">
+      <div id="init" class="jumbotron">
+        <p>Issue Category</p>
+      </div>
+      <div class="container center-screen">
+        <div id="tree-container">
           <script>
               d3.json("data-example.json", function(error, json) {
                   treeBoxes('', json.tree);
               });
           </script>
         </div>
+      </div>
     </div>
   </body>
 </html>

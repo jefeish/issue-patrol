@@ -88,21 +88,7 @@
 								"nodeName" : "NODE NAME 3.3",
 								"direction" : "ASYN"
 							},
-						"children" : [{
-								"nodeName" : "NODE NAME 4.1",
-								"name" : "NODE NAME 4.1",
-								"type" : "type4",
-								"code" : "N4.1",
-								"label" : "Node name 4.1",
-								"version" : "v1.0",
-								"link" : {
-										"name" : "Link node 3.3 to 4.1",
-										"nodeName" : "NODE NAME 4.1",
-										"direction" : "SYNC"
-									},
-								"children" : []
-							}
-						]
+						"children" : []
 					}, {
 						"nodeName" : "NODE NAME 3.4",
 						"name" : "NODE NAME 3.4",
@@ -115,21 +101,7 @@
 								"nodeName" : "NODE NAME 3.4",
 								"direction" : "ASYN"
 							},
-						"children" : [{
-								"nodeName" : "NODE NAME 4.2",
-								"name" : "NODE NAME 4.2",
-								"type" : "type4",
-								"code" : "N4.2",
-								"label" : "Node name 4.2",
-								"version" : "v1.0",
-								"link" : {
-										"name" : "Link node 3.4 to 4.2",
-										"nodeName" : "NODE NAME 4.1",
-										"direction" : "ASYN"
-									},
-								"children" : []
-							}
-						]
+						"children" : []
 					}
 				]
 			}
