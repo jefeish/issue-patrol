@@ -1,8 +1,8 @@
 const express = require('express')
 const app = express()
+var path = require('path')
 const fs = require('fs')
 const hbs = require('handlebars')
-const path = __dirname + '/'
 require('dotenv').config();
 const util = require('util')
 const moment = require('moment');
@@ -33,6 +33,36 @@ async function getIssues(owner, repo, state, page_limit) {
 // --------------------------------------------------
 // 
 // --------------------------------------------------
+app.use(express.static(path.join(__dirname, '/images')))
+app.use(express.static(path.join(__dirname, '/scripts')))
+app.use(express.static(path.join(__dirname, '/css')))
+app.use(express.static(path.join(__dirname, '/data')))
+
+// --------------------------------------------------
+// 
+// --------------------------------------------------
+app.get('/category', function (req, res) {
+    const header = fs.readFileSync(__dirname + '/templates/header.html', 'utf8')
+
+    fs.readFile(__dirname + '/templates/issues-category.hbs', 'utf8', (err, tpl) => {
+        if (err) {
+            console.error(err)
+            return
+        }
+
+        var template = hbs.compile(tpl);
+        var data = {
+            "header": header
+        };              
+
+        const result = template(data);
+        res.send(result)
+    }) 
+}) 
+    
+// --------------------------------------------------
+// 
+// --------------------------------------------------
 app.get('/', function (req, res) {
     const state = req.query.issue_state || 'open'
     const repo = req.query.repo || 'test'
@@ -43,7 +73,8 @@ app.get('/', function (req, res) {
         const TODAY = moment(new Date())
         const r = result
 
-        fs.readFile(path + 'templates/issues-gantt.hbs', 'utf8', (err, tpl) => {
+        const header = fs.readFileSync(__dirname + '/templates/header.html', 'utf8')
+        fs.readFile(__dirname + '/templates/issues-gantt.hbs', 'utf8', (err, tpl) => {
             if (err) {
                 console.error(err)
                 return
@@ -89,6 +120,7 @@ app.get('/', function (req, res) {
 
             var template = hbs.compile(tpl);
             var data = {
+                "header": header,
                 "sortTasks": sortTasks === 'on' ? 'true' : 'false',
                 "org": ORG,
                 "repo": repo,

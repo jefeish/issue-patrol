@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3.js collapsible tree with boxes</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="tree-boxes.css">
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script src="https://d3js.org/d3.v3.min.js" type="text/javascript"></script>
+    <script src="tree-boxes.js" type="text/javascript"></script>
+    <script>
+        // Support for the Header bar
+        // --------------------------------------------------
+        window.addEventListener("load", function () {
+            document.getElementById('_category').style.color = 'Aqua';
+        })
+
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+        {{{header}}}
+    </div>
+    <div class="container">
+        <div id="init" class="jumbotron"></div>
+        <div id="tree-container" class="jumbotron">
+          <script>
+              d3.json("data-example.json", function(error, json) {
+                  treeBoxes('', json.tree);
+              });
+          </script>
+        </div>
+    </div>
+  </body>
+</html>
