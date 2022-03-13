@@ -26,6 +26,7 @@
         // --------------------------------------------------
         window.onbeforeunload = function () {
             localStorage.setItem(issue_state, $('#issue_state').val());
+            localStorage.setItem(org, $('#org').val());
             localStorage.setItem(repo, $('#repo').val());
             localStorage.setItem(sortTasks, $('#sortTasks').val());
             localStorage.setItem(page_limit, $('#page_limit').val());
@@ -109,6 +110,7 @@
         <div id="init" class="jumbotron">
              <div>
                 <form action=".">
+                    <input type="text" id="org" name="org" value="{{org}}" placeholder="Provide an Org name"><br>
                     <input type="text" id="repo" name="repo" value="{{repo}}" placeholder="Provide a Repo name"><br>
                     <input type="radio" id="all" name="issue_state" value="all" {{checked_all}}>
                     <label for="all">All</label>

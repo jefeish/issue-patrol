@@ -26,7 +26,8 @@ async function getIssues(owner, repo, state, page_limit) {
         state: state,
         per_page: page_limit,
     });
-    
+
+    console.log(">>>>> data:" + util.inspect(data));
     return data;
 }
 
@@ -65,11 +66,12 @@ app.get('/category', function (req, res) {
 // --------------------------------------------------
 app.get('/', function (req, res) {
     const state = req.query.issue_state || 'open'
+    const org = req.query.org || ORG  
     const repo = req.query.repo || 'test'
     const sortTasks = req.query.sortTasks 
     const page_limit = req.query.page_limit || 100
     
-    getIssues(ORG, repo, state, page_limit).then(result => {
+    getIssues(org, repo, state, page_limit).then(result => {
         const TODAY = moment(new Date())
         const r = result
 
@@ -109,11 +111,11 @@ app.get('/', function (req, res) {
                         row['end'] = TODAY
                         row['done'] = active
                     }
- 
+
                     issueGrid.push(row)
                 }
             }
-                
+  
             if (issueGrid.length == 0) {
                 issueGrid.push({ id:null, title:'No Issues found', state:null, start:null, end:null, a:null, done:null, b:null})
             }
@@ -122,7 +124,7 @@ app.get('/', function (req, res) {
             var data = {
                 "header": header,
                 "sortTasks": sortTasks === 'on' ? 'true' : 'false',
-                "org": ORG,
+                "org": org,
                 "repo": repo,
                 "state": state,
                 "page_limit": page_limit,
