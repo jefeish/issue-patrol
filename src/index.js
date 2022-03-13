@@ -27,7 +27,6 @@ async function getIssues(owner, repo, state, page_limit) {
         per_page: page_limit,
     });
 
-    console.log(">>>>> data:" + util.inspect(data));
     return data;
 }
 
@@ -43,6 +42,12 @@ app.use(express.static(path.join(__dirname, '/data')))
 // 
 // --------------------------------------------------
 app.get('/category', function (req, res) {
+    const state = req.query.issue_state || 'open'
+    const org = req.query.org || ORG  
+    const repo = req.query.repo || 'test'
+    const sortTasks = req.query.sortTasks 
+    const page_limit = req.query.page_limit || 100
+
     const header = fs.readFileSync(__dirname + '/templates/header.html', 'utf8')
 
     fs.readFile(__dirname + '/templates/issues-category.hbs', 'utf8', (err, tpl) => {
@@ -53,7 +58,16 @@ app.get('/category', function (req, res) {
 
         var template = hbs.compile(tpl);
         var data = {
-            "header": header
+            "header": header,
+            "sortTasks": sortTasks === 'on' ? 'true' : 'false',
+            "org": org,
+            "repo": repo,
+            "state": state,
+            "page_limit": page_limit,
+            "checked_all": state === 'all' ? 'checked' : '',
+            "checked_open": state === 'open' ? 'checked' : '',
+            "checked_closed": state === 'closed' ? 'checked' : '',
+            "checked_reverse": sortTasks === 'on' ? 'checked' : ''
         };              
 
         const result = template(data);
