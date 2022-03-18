@@ -1,0 +1,13 @@
+
+.inline { 
+    display: inline; 
+	float: left;
+    /* border: 1px solid lightgrey;  */
+	padding: 0px 15px 0px 0px;
+    }
+
+.center-screen {
+	display: flex;
+	justify-content: center;
+	min-height: 100vh;
+  }

@@ -38,19 +38,16 @@ app.use(express.static(path.join(__dirname, '/scripts')))
 app.use(express.static(path.join(__dirname, '/css')))
 app.use(express.static(path.join(__dirname, '/data')))
 
+    
 // --------------------------------------------------
 // 
 // --------------------------------------------------
-app.get('/category', function (req, res) {
-    const state = req.query.issue_state || 'open'
-    const org = req.query.org || ORG  
-    const repo = req.query.repo || 'test'
-    const sortTasks = req.query.sortTasks 
-    const page_limit = req.query.page_limit || 100
+app.get('/', function (req, res) {
+    console.log('home - req.query.org: '+req.query.org +" - req.query.repo: "+req.query.repo +" - req.query.issue_state: "+req.query.issue_state)
 
     const header = fs.readFileSync(__dirname + '/templates/header.html', 'utf8')
 
-    fs.readFile(__dirname + '/templates/issues-category.hbs', 'utf8', (err, tpl) => {
+    fs.readFile(__dirname + '/templates/issue-patrol.hbs', 'utf8', (err, tpl) => {
         if (err) {
             console.error(err)
             return
@@ -58,27 +55,19 @@ app.get('/category', function (req, res) {
 
         var template = hbs.compile(tpl);
         var data = {
-            "header": header,
-            "sortTasks": sortTasks === 'on' ? 'true' : 'false',
-            "org": org,
-            "repo": repo,
-            "state": state,
-            "page_limit": page_limit,
-            "checked_all": state === 'all' ? 'checked' : '',
-            "checked_open": state === 'open' ? 'checked' : '',
-            "checked_closed": state === 'closed' ? 'checked' : '',
-            "checked_reverse": sortTasks === 'on' ? 'checked' : ''
+            "header": header
         };              
 
         const result = template(data);
         res.send(result)
     }) 
-}) 
-    
+})
+ 
 // --------------------------------------------------
 // 
 // --------------------------------------------------
-app.get('/', function (req, res) {
+app.get('/activity', function (req, res) {
+    console.log('activity - req.query.org: '+req.query.org +" - req.query.repo: "+req.query.repo +" - req.query.issue_state: "+req.query.issue_state)
     const state = req.query.issue_state || 'open'
     const org = req.query.org || ORG  
     const repo = req.query.repo || 'test'
@@ -162,9 +151,50 @@ app.get('/', function (req, res) {
 
 })
 
+// --------------------------------------------------
+// 
+// --------------------------------------------------
+app.get('/category', function (req, res) {
+    console.log('category - req.query.org: '+req.query.org +" - req.query.repo: "+req.query.repo +" - req.query.issue_state: "+req.query.issue_state)
+    const state = req.query.issue_state || 'open'
+    const org = req.query.org || ORG  
+    const repo = req.query.repo || 'test'
+    const sortTasks = req.query.sortTasks 
+    const page_limit = req.query.page_limit || 100
+
+    const header = fs.readFileSync(__dirname + '/templates/header.html', 'utf8')
+
+    fs.readFile(__dirname + '/templates/issues-category.hbs', 'utf8', (err, tpl) => {
+        if (err) {
+            console.error(err)
+            return
+        }
+
+        var template = hbs.compile(tpl);
+        var data = {
+            "header": header,
+            "sortTasks": sortTasks === 'on' ? 'true' : 'false',
+            "org": org,
+            "repo": repo,
+            "state": state,
+            "page_limit": page_limit,
+            "checked_all": state === 'all' ? 'checked' : '',
+            "checked_open": state === 'open' ? 'checked' : '',
+            "checked_closed": state === 'closed' ? 'checked' : '',
+            "checked_reverse": sortTasks === 'on' ? 'checked' : ''
+        };              
+
+        const result = template(data);
+        res.send(result)
+    }) 
+}) 
+
+// --------------------------------------------------
+// 
+// --------------------------------------------------
 const server = app.listen(PORT, function () {
-   var host = server.address().address
-   var port = server.address().port
-   
-   console.log("Example app listening at http://%s:%s", host, port)
-})
+    var host = server.address().address
+    var port = server.address().port
+    
+    console.log("Example app listening at http://%s:%s", host, port)
+ })

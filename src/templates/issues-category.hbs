@@ -6,7 +6,9 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" href="tree-boxes.css">
+    <link rel="stylesheet" type="text/css" href="common.css">
 
+    {{!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> --}}
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -22,29 +24,62 @@
             document.getElementById('_category').style.color = 'Aqua';
         })
 
-        $(document).ready(function () {
-            $('[data-toggle="popover"]').popover();
-        });
+
+        // Store the selected options in a variable
+        // --------------------------------------------------
+        window.onbeforeunload = function () {
+          alert('>>>>>> issue_state: ' + $('#issue_state').val() +' org: '+ $('#org').val() +' repo: '+ $('#repo').val() +' sortTasks: '+ $('#sortTasks').val() +' page_limit: '+ $('#page_limit').val());
+
+            localStorage.setItem(issue_state, $('#issue_state').val());
+            localStorage.setItem(org, $('#org').val());
+            localStorage.setItem(repo, $('#repo').val());
+            localStorage.setItem(sortTasks, $('#sortTasks').val());
+            localStorage.setItem(page_limit, $('#page_limit').val());
+        }
+
+        function showme() {
+            alert('showme - issue_state: ' + $('#issue_state').val() +' org: '+ $('#org').val() +' repo: '+ $('#repo').val() +' sortTasks: '+ $('#sortTasks').val() +' page_limit: '+ $('#page_limit').val());
+        }
     </script>
   </head>
-  <body>
+  <body onload="showme()">
     <div class="container">
         {{{header}}}
     </div>
     <div class="container">
       <div id="init" class="jumbotron">
         <p>Issue Category</p><br><br>
-        <div>
-          <input type="text" id="org" name="org" value="{{org}}" placeholder="Provide an Org name"><br>
-          <input type="text" id="repo" name="repo" value="{{repo}}" placeholder="Provide a Repo name"><br>
-          <input type="radio" id="all" name="issue_state" value="all" {{checked_all}}>
-          <label for="all">All</label>
-          <input type="radio" id="open" name="issue_state" value="open" {{checked_open}}>
-          <label for="open">Open</label>
-          <input type="radio" id="closed" name="issue_state" value="closed" {{checked_closed}}>
-          <label for="closed">Closed</label><br>
-          <input type="number" name="page_limit" value="{{page_limit}}"placeholder="# of issues (max 100)"><br>
-        </div>
+        <form action="/category">
+          <div>
+            <div class="inline">
+              <label for="org">Org</label><br>
+              <input type="text" id="org" name="org" value="{{org}}" placeholder="Provide an Org name">
+            </div>
+            <div class="inline">
+              <label for="repo">Repository</label><br>
+              <input type="text" id="repo" name="repo" value="{{repo}}" placeholder="Provide a Repo name">
+            </div>
+            <div class="inline">
+              <label>State</label><br>
+              <input type="radio" id="all" name="issue_state" value="all" {{checked_all}}>
+              <label for="all" style=" margin-right: 20px">All</label>
+              <input type="radio" id="open" name="issue_state" value="open" {{checked_open}}>
+              <label for="open" style=" margin-right: 20px">Open</label>
+              <input type="radio" id="closed" name="issue_state" value="closed" {{checked_closed}}>
+              <label for="closed" style=" margin-right: 20px">Closed</label><br>
+            </div> 
+            <div class="inline">
+              <label for="page_limit">Limit</label><br>
+              <input type="number" id="page_limit" name="page_limit" value="{{page_limit}}"placeholder="# of issues (max 100)">   
+            </div>
+            <div><br><br><br>
+              <input type="checkbox" id="sortTasks" name="sortTasks" {{checked_reverse}}>
+              <label for="sortTasks">Reverse order</label>
+            </div><br>
+              <input type="submit" value="Submit" class="btn btn-primary">
+            </div> 
+          </div>
+        </form>
       </div>
       <div class="container center-screen">
         <div id="tree-container">

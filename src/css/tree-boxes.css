@@ -27,12 +27,6 @@
 	/* width: 100%; */
 }
 
-.center-screen {
-	display: flex;
-	justify-content: center;
-	min-height: 100vh;
-  }
-
 .svgContainer {
 	display: block;
     margin: auto;
