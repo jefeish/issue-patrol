@@ -9,8 +9,8 @@ The goal is to get a quick overview on the status of Repo Issues.
 ![overview](docs/images/issue_patrol.png)
 
 Explanation:
-- The `Bar` indicates the overall length that the Issue has been open
-- The darker color on the `Bar` indicates the last update on the Issue, letting you about the contributions or activity
+- Each `Bar` indicates the overall length that the Issue has been open
+- The darker color on the `Bar` shows the last update on the Issue, letting you know about the contributions or activity
 - So if you see an Issue that only shows a light color, this means after creating the Issue, nobody provdided any update = no Activity.
 
 ---
